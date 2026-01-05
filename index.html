@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POWWOW - コース案内＆ホルモンサイクル</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.1.0/dist/chartjs-plugin-annotation.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #FFF5F7; /* Pale Pink Background */
+            color: #5D4037; /* Warm Brown Text */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            max-height: 500px;
+        }
+        /* Custom Button Styling */
+        .btn-season.active {
+            background-color: #F4A6B6; /* Sakura Pink */
+            color: white;
+            border-color: #F4A6B6;
+            box-shadow: 0 4px 6px -1px rgba(244, 166, 182, 0.4);
+        }
+        .phase-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        .phase-card:hover {
+            background-color: #FFF0F3;
+        }
+        .phase-card.active-phase {
+            border-left: 6px solid #F4A6B6;
+            background-color: #FFF;
+            box-shadow: 0 4px 10px rgba(244, 166, 182, 0.2);
+        }
+        .step-badge {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            background-color: #F3E5E9;
+            color: #8E5E65;
+        }
+        .active-phase .step-badge {
+            background-color: #F4A6B6;
+            color: white;
+        }
+        /* Legend for Chart Customization */
+        .chart-legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.75rem;
+            margin-right: 12px;
+            color: #666;
+        }
+        .legend-color-box {
+            width: 12px;
+            height: 12px;
+            margin-right: 4px;
+            border-radius: 2px;
+        }
+    </style>
+    <!-- Chosen Palette: Sakura Healing (Pale Pink #FFF5F7, Sakura Pink #F4A6B6, Rose #E98B9F, Warm Brown #5D4037) -->
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-md shadow-sm py-4 sticky top-0 z-50 border-b border-pink-100">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-widest text-[#E98B9F]">POWWOW</h1>
+            <nav class="hidden md:flex space-x-6 text-sm text-[#8E5E65]">
+                <a href="#roadmap" class="hover:text-[#F4A6B6] transition">施術ロードマップ</a>
+                <a href="#seasonal" class="hover:text-[#F4A6B6] transition">季節のおすすめ</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 py-8 space-y-12">
+
+        <!-- Intro Section -->
+        <section class="text-center max-w-3xl mx-auto mt-6">
+            <h2 class="text-3xl font-light mb-4 text-[#5D4037]">女性の体には、<br class="md:hidden">波とリズムがあります。</h2>
+            <p class="text-[#8E5E65] leading-relaxed">
+                ホルモンバランスの変化や、季節の移ろい。<br>
+                POWWOWは、揺らぎやすい女性の体に寄り添い、<br>
+                「今」必要なケアと最適なペースをご提案します。
+            </p>
+        </section>
+
+        <!-- Roadmap Section -->
+        <section id="roadmap" class="bg-white rounded-3xl p-6 lg:p-8 shadow-md border border-pink-100">
+            <div class="mb-6 border-b border-pink-100 pb-4">
+                <h3 class="text-xl font-bold text-[#E98B9F] flex items-center gap-2">
+                    <span class="text-2xl">01</span> 施術サイクルとホルモンバランス
+                </h3>
+                <p class="text-sm text-gray-500 mt-2">
+                    理想的な来店ペースと、間隔が空いてしまった場合の違いをグラフで比較できます。<br>
+                    また、女性ホルモンの波（月経・排卵周期）との関係も確認しましょう。
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-8 items-start">
+                <!-- Left: Controls -->
+                <div class="lg:col-span-4 space-y-4">
+                    <button onclick="updatePhase(0)" id="btn-phase-1" class="phase-card w-full text-left p-4 rounded-xl border border-pink-50 hover:border-pink-200 transition active-phase">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="step-badge">1ヶ月目</span>
+                            <span class="text-xs font-bold text-[#E98B9F]">Step 1</span>
+                        </div>
+                        <h4 class="font-bold text-lg text-[#5D4037]">土台期</h4>
+                        <p class="text-xs text-gray-500 mt-1">まずは凝りを「ほぐす」時期</p>
+                        <div class="mt-2 text-xs font-bold text-[#F4A6B6] bg-[#FFF5F7] inline-block px-2 py-1 rounded">来店目安: 週に1回</div>
+                    </button>
+                    
+                    <button onclick="updatePhase(1)" id="btn-phase-2" class="phase-card w-full text-left p-4 rounded-xl border border-pink-50 hover:border-pink-200 transition">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="step-badge">2〜3ヶ月目</span>
+                            <span class="text-xs font-bold text-[#E98B9F]">Step 2</span>
+                        </div>
+                        <h4 class="font-bold text-lg text-[#5D4037]">調整期</h4>
+                        <p class="text-xs text-gray-500 mt-1">良い姿勢に「整える」時期</p>
+                        <div class="mt-2 text-xs font-bold text-[#F4A6B6] bg-[#FFF5F7] inline-block px-2 py-1 rounded">来店目安: 月に2回</div>
+                    </button>
+                    
+                    <button onclick="updatePhase(2)" id="btn-phase-3" class="phase-card w-full text-left p-4 rounded-xl border border-pink-50 hover:border-pink-200 transition">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="step-badge">4ヶ月目〜</span>
+                            <span class="text-xs font-bold text-[#E98B9F]">Step 3</span>
+                        </div>
+                        <h4 class="font-bold text-lg text-[#5D4037]">メンテナンス期</h4>
+                        <p class="text-xs text-gray-500 mt-1">定着させて「鍛える」時期</p>
+                        <div class="mt-2 text-xs font-bold text-[#F4A6B6] bg-[#FFF5F7] inline-block px-2 py-1 rounded">来店目安: 月に1回</div>
+                    </button>
+
+                    <!-- Toggle for Bad Cycle -->
+                    <div class="mt-6 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                        <label class="flex items-center cursor-pointer gap-3">
+                            <input type="checkbox" id="toggle-irregular" class="w-5 h-5 accent-[#888] rounded" onchange="toggleIrregularDataset()">
+                            <span class="text-sm font-medium text-gray-600">「来店間隔が乱れた場合」を表示</span>
+                        </label>
+                        <p class="text-xs text-gray-400 mt-2 pl-8">チェックを入れると、間隔が空いてしまった時の改善イメージを比較できます。</p>
+                    </div>
+                </div>
+
+                <!-- Right: Chart & Details -->
+                <div class="lg:col-span-8 flex flex-col h-full">
+                    <!-- Chart Area -->
+                    <div class="bg-white rounded-xl p-2 mb-4 relative">
+                        <div class="chart-container">
+                            <canvas id="cycleChart"></canvas>
+                        </div>
+                        <!-- Custom Legend below chart -->
+                        <div class="flex flex-wrap justify-center mt-2 gap-y-2">
+                            <div class="chart-legend-item"><span class="legend-color-box" style="background-color: #F4A6B6;"></span>理想的な改善</div>
+                            <div class="chart-legend-item"><span class="legend-color-box" style="background-color: #999; border: 2px dashed #999;"></span>間隔が空いた場合</div>
+                            <div class="chart-legend-item"><span class="legend-color-box" style="background-color: rgba(100, 149, 237, 0.3);"></span>エストロゲン(卵胞)</div>
+                            <div class="chart-legend-item"><span class="legend-color-box" style="background-color: rgba(255, 165, 0, 0.3);"></span>プロゲステロン(黄体)</div>
+                        </div>
+                    </div>
+
+                    <!-- Detail Text Area -->
+                    <div id="phase-detail-content" class="bg-[#FFF5F7] p-5 rounded-xl border-l-4 border-[#F4A6B6] flex-grow shadow-inner">
+                        <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-4 mb-3">
+                            <div>
+                                <h4 id="detail-title" class="font-bold text-lg text-[#5D4037]">土台期：ほぐしと歪みケア</h4>
+                                <p id="detail-text" class="text-sm text-[#8E5E65] mt-2 leading-relaxed">
+                                    筋肉の硬さと骨盤の歪みが強い状態です。まずは整体でしっかりほぐし、骨格バランスの土台を作ります。
+                                </p>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-pink-100 min-w-[200px] shadow-sm">
+                                <div class="text-xs text-gray-400 font-bold mb-1 uppercase tracking-wide">Recommend</div>
+                                <div id="detail-menu" class="font-bold text-[#E98B9F]">ウィメンズ整体70</div>
+                            </div>
+                        </div>
+                        <div class="border-t border-dashed border-pink-200 pt-3">
+                            <div class="flex items-start gap-3">
+                                <span class="bg-[#F4A6B6] text-white text-xs font-bold px-2 py-1 rounded mt-1 whitespace-nowrap">Point</span>
+                                <p id="detail-point" class="text-sm text-[#5D4037]">
+                                    初回〜3回目：可動域と歪みをチェック。コリがひどい場合は、3回目あたりで「首肩オイル整体」のオプション追加がおすすめです。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seasonal Recommendation Section -->
+        <section id="seasonal" class="bg-white rounded-3xl p-6 shadow-md border border-pink-100">
+            <div class="mb-6 border-b border-pink-100 pb-4">
+                <h3 class="text-xl font-bold text-[#E98B9F] flex items-center gap-2">
+                    <span class="text-2xl">02</span> 今のあなたにおすすめのケア
+                </h3>
+                <p class="text-sm text-gray-500 mt-2">
+                    季節や気候の変化に合わせたメニュー選びで、より快適な毎日を。
+                </p>
+            </div>
+
+            <!-- Season Selector -->
+            <div class="flex flex-wrap justify-center gap-3 mb-8">
+                <button onclick="setSeason('spring')" class="btn-season px-6 py-2 rounded-full border border-pink-200 text-[#8E5E65] hover:bg-pink-50 transition text-sm font-medium" data-season="spring">春 (3-5月)</button>
+                <button onclick="setSeason('summer')" class="btn-season px-6 py-2 rounded-full border border-pink-200 text-[#8E5E65] hover:bg-pink-50 transition text-sm font-medium" data-season="summer">夏 (6-8月)</button>
+                <button onclick="setSeason('autumn')" class="btn-season px-6 py-2 rounded-full border border-pink-200 text-[#8E5E65] hover:bg-pink-50 transition text-sm font-medium" data-season="autumn">秋 (9-11月)</button>
+                <button onclick="setSeason('winter')" class="btn-season px-6 py-2 rounded-full border border-pink-200 text-[#8E5E65] hover:bg-pink-50 transition text-sm font-medium active" data-season="winter">冬 (12-2月)</button>
+            </div>
+
+            <!-- Dynamic Content -->
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Recommended Menu -->
+                <div class="bg-[#FFFDFD] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition border border-pink-50">
+                    <div class="bg-[#F4A6B6] p-3 text-white font-bold text-center tracking-wider">
+                        季節のおすすめコース
+                    </div>
+                    <div class="p-6">
+                        <h4 id="menu-title" class="text-xl font-bold text-[#5D4037] mb-2 border-b border-pink-200 inline-block pb-1">全身整体＋温活コース</h4>
+                        <div class="mt-4 space-y-3">
+                            <p id="menu-desc" class="text-sm text-[#8E5E65] leading-relaxed">
+                                寒さで縮こまった体を芯から緩めます。筋肉が硬くなりやすいこの時期は、通常の整体に加えて血流を促進するアプローチが不可欠です。
+                            </p>
+                            <ul id="menu-benefits" class="text-sm text-gray-500 list-disc list-inside bg-[#FFF5F7] p-3 rounded-lg border border-pink-100">
+                                <li>寒さによる肩こり・腰痛の緩和</li>
+                                <li>免疫力アップ</li>
+                                <li>冷え性改善</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recommended Option -->
+                <div class="bg-[#FFFDFD] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition border border-pink-50">
+                    <div class="bg-[#E98B9F] p-3 text-white font-bold text-center tracking-wider">
+                        プラスワン・オプション
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-start justify-between">
+                            <h4 id="option-title" class="text-xl font-bold text-[#5D4037] mb-2 border-b border-pink-200 inline-block pb-1">ホットストーン / 腸もみ</h4>
+                            <span class="bg-white text-[#E98B9F] text-xs font-bold px-2 py-1 rounded border border-[#E98B9F]">Option</span>
+                        </div>
+                        <div class="mt-4 space-y-3">
+                            <p id="option-desc" class="text-sm text-[#8E5E65] leading-relaxed">
+                                内臓の冷えは全身の不調につながります。お腹を温めながら優しくほぐすことで、自律神経を整え、深いリラックス効果が得られます。
+                            </p>
+                            <div class="bg-[#FFF5F7] p-3 rounded-lg border border-pink-100">
+                                <p class="text-xs font-bold text-[#E98B9F] mb-1">こんな方におすすめ</p>
+                                <p id="option-target" class="text-sm text-gray-600">手足の冷えが辛い方 / 便秘気味の方 / 眠りが浅い方</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Area -->
+        <section class="text-center py-8">
+            <button class="bg-[#E98B9F] hover:bg-[#D47A8D] text-white font-bold py-4 px-12 rounded-full shadow-lg transform hover:-translate-y-1 transition duration-300 text-lg tracking-wide">
+                この内容で予約・相談する
+            </button>
+            <p class="text-xs text-[#8E5E65] mt-4">※スタッフまでお気軽にお声がけください</p>
+        </section>
+
+    </main>
+
+    <script>
+        // --- Data Definitions ---
+
+        // Cycle/Phase Data with Hormone info
+        // X-axis: 0-16 weeks (approx 4 months)
+        const labels = Array.from({length: 17}, (_, i) => i === 0 ? '初回' : (i % 4 === 0 ? (i/4)+'ヶ月' : ''));
+        
+        // Ideal Improvement (Weekly -> Bi-weekly -> Monthly)
+        // Data points mapped roughly to weeks: 0, 1, 2, 3, 4, 6, 8, 12, 16...
+        const idealDataPoints = [
+            {x: 0, y: 20}, {x: 1, y: 35}, {x: 2, y: 50}, {x: 3, y: 65}, {x: 4, y: 75}, // Phase 1 (Weekly)
+            {x: 6, y: 85}, {x: 8, y: 92}, // Phase 2 (Bi-weekly)
+            {x: 12, y: 96}, {x: 16, y: 98} // Phase 3 (Monthly)
+        ];
+
+        // Irregular Improvement (Gap too wide -> drop in condition)
+        const irregularDataPoints = [
+            {x: 0, y: 20}, 
+            {x: 2, y: 30}, // Came late
+            {x: 3, y: 25}, // Condition dropped
+            {x: 5, y: 40}, // Came late
+            {x: 7, y: 35}, // Dropped again
+            {x: 10, y: 45}, // Slow progress
+            {x: 14, y: 40} // Stuck
+        ];
+
+        // Hormone Simulation (Sine waves)
+        // Estrogen: Peaks before ovulation (approx week 2 of cycle)
+        // Progesterone: Peaks after ovulation (approx week 3 of cycle)
+        // Assuming 4-week cycle for visualization simplicity
+        function generateEstrogenData() {
+            const data = [];
+            for(let i=0; i<=16; i+=0.5) {
+                // Peak at week 1.5, 5.5, 9.5 (Ovulation-ish)
+                const cyclePos = i % 4;
+                // Simple approximation
+                let val = Math.sin((cyclePos) * Math.PI / 2) * 10 + 15; 
+                // Adjust phase to peak around week 2 (Ovulation)
+                // Cycle: 0(Period) -> 2(Ovulation) -> 4(Period)
+                // Estrogen peaks around 1.5-2
+                val = (Math.sin((cyclePos - 1) * Math.PI / 1.5) * 10) + 15; 
+                if(val < 5) val = 5;
+                data.push({x: i, y: val});
+            }
+            return data;
+        }
+
+        function generateProgesteroneData() {
+            const data = [];
+            for(let i=0; i<=16; i+=0.5) {
+                const cyclePos = i % 4;
+                // Progesterone peaks around week 3 (Luteal phase)
+                let val = (Math.sin((cyclePos - 2.5) * Math.PI / 1.5) * 10) + 15;
+                if(val < 5) val = 5;
+                data.push({x: i, y: val});
+            }
+            return data;
+        }
+
+        const phaseDetails = [
+            {
+                title: "土台期：ほぐしと歪みケア",
+                desc: "筋肉の硬さと骨盤の歪みが強い状態です。まずは整体でしっかりほぐし、骨格バランスの土台を作ります。歪みがひどいこの時期は、間隔を空けずに施術することが重要です。",
+                menu: "ウィメンズ整体70",
+                point: "初回〜3回目：可動域・歪みをチェック。コリが強い場合は、3回目あたりで「首肩オイル整体」のオプション追加が効果的です。",
+                highlightRange: {min: 0, max: 4}
+            },
+            {
+                title: "調整期：姿勢の矯正",
+                desc: "筋肉がほぐれてきたので、次は猫背などの悪い姿勢を矯正していく時期です。良い状態を体に定着させていきます。",
+                menu: "美姿勢70",
+                point: "4〜5回目：だいぶほぐれが良くなってきたタイミング。「猫背矯正」を取り入れ、さらに姿勢を良くしていきましょう。",
+                highlightRange: {min: 4, max: 8}
+            },
+            {
+                title: "メンテナンス期：定着と引き締め",
+                desc: "整った姿勢を完全に定着させ、維持する時期です。EMSなどの機器も活用し、お腹周りを引き締めたり、インナーケアを取り入れます。",
+                menu: "ダイエット整体70 ＋ インナーケア",
+                point: "6回目以降：姿勢の定着のためにEMSを導入。インナーケアとして「腸活ケア」なども組み合わせ、健康＋美容を追求しましょう。",
+                highlightRange: {min: 8, max: 16}
+            }
+        ];
+
+        const seasonalContent = {
+            spring: {
+                menu: { title: "自律神経バランス整体", desc: "春は寒暖差や環境の変化で自律神経が乱れやすい季節。背骨周りを重点的に緩め、呼吸を深くすることで、「なんとなく不調」を解消します。", benefits: ["自律神経の乱れケア", "春のダルさ解消", "睡眠の質向上"] },
+                option: { title: "ドライヘッドスパ / 眼精疲労ケア", desc: "頭皮の緊張を解きほぐし、春特有の頭の重さや花粉による目の不快感をスッキリさせます。", target: "頭が重い方 / 目が疲れている方" }
+            },
+            summer: {
+                menu: { title: "むくみ撃退リンパ整体", desc: "冷房による冷えや水分過多で、体は意外とむくんでいます。股関節や足首の調整に加え、リンパの流れを促進してスッキリ軽い体へ。", benefits: ["足のむくみ解消", "冷房病ケア", "代謝アップ"] },
+                option: { title: "足裏リフレクソロジー", desc: "内臓の反射区を刺激し、夏バテで弱った胃腸の働きを助けます。オイルを使って膝下まで流します。", target: "足がパンパンな方 / 胃腸が疲れ気味の方" }
+            },
+            autumn: {
+                menu: { title: "骨盤調整＋疲労回復コース", desc: "夏の疲れがドッと出る秋。骨盤を整えてホルモンバランスをケアし、冬に向けて体力を回復させる土台作りを行います。", benefits: ["夏の疲れリセット", "ホルモンバランス調整", "腰痛予防"] },
+                option: { title: "ハンド＆アームケア", desc: "季節の変わり目は末端の血行が悪くなりがち。指先から腕全体をほぐし、首肩の緊張も緩めます。", target: "肩こりがひどい方 / 手先が冷える方" }
+            },
+            winter: {
+                menu: { title: "全身整体＋温活コース", desc: "寒さで縮こまった体を芯から緩めます。筋肉が硬くなりやすいこの時期は、通常の整体に加えて血流を促進するアプローチが不可欠です。", benefits: ["寒さによる肩こり・腰痛の緩和", "免疫力アップ", "冷え性改善"] },
+                option: { title: "ホットストーン / 腸もみ", desc: "内臓の冷えは全身の不調につながります。お腹を温めながら優しくほぐすことで、自律神経を整え、深いリラックス効果が得られます。", target: "手足の冷えが辛い方 / 便秘気味の方 / 眠りが浅い方" }
+            }
+        };
+
+        // --- Chart Initialization ---
+        let cycleChart;
+
+        function initChart() {
+            const ctx = document.getElementById('cycleChart').getContext('2d');
+            
+            cycleChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels, // 0 to 16 weeks
+                    datasets: [
+                        {
+                            label: '理想的な改善（週1→月2→月1）',
+                            data: idealDataPoints,
+                            borderColor: '#F4A6B6', // Sakura Pink
+                            backgroundColor: 'rgba(244, 166, 182, 0.2)',
+                            borderWidth: 3,
+                            tension: 0.4,
+                            fill: false,
+                            pointBackgroundColor: '#FFF',
+                            pointBorderColor: '#F4A6B6',
+                            pointRadius: 6,
+                            pointHoverRadius: 8,
+                            yAxisID: 'y',
+                            order: 1
+                        },
+                        {
+                            label: '間隔が乱れた場合（効果が定着しない）',
+                            data: irregularDataPoints,
+                            borderColor: '#9CA3AF', // Grey
+                            borderDash: [5, 5],
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            pointRadius: 4,
+                            pointBackgroundColor: '#E5E7EB',
+                            hidden: true, // Initially hidden
+                            yAxisID: 'y',
+                            order: 2
+                        },
+                        {
+                            label: 'エストロゲン（卵胞ホルモン）',
+                            data: generateEstrogenData(),
+                            borderColor: 'rgba(100, 149, 237, 0.4)', // Cornflower Blue low opacity
+                            backgroundColor: 'rgba(100, 149, 237, 0.1)',
+                            borderWidth: 0, // Fill only
+                            fill: true,
+                            tension: 0.5,
+                            pointRadius: 0,
+                            yAxisID: 'yHormone',
+                            order: 3
+                        },
+                        {
+                            label: 'プロゲステロン（黄体ホルモン）',
+                            data: generateProgesteroneData(),
+                            borderColor: 'rgba(255, 165, 0, 0.4)', // Orange low opacity
+                            backgroundColor: 'rgba(255, 165, 0, 0.1)',
+                            borderWidth: 0, // Fill only
+                            fill: true,
+                            tension: 0.5,
+                            pointRadius: 0,
+                            yAxisID: 'yHormone',
+                            order: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: { display: false }, // Using custom legend
+                        tooltip: {
+                            backgroundColor: 'rgba(93, 64, 55, 0.9)',
+                            titleFont: { family: "'Noto Sans JP', sans-serif" },
+                            bodyFont: { family: "'Noto Sans JP', sans-serif" },
+                            callbacks: {
+                                label: function(context) {
+                                    if(context.dataset.yAxisID === 'yHormone') return null; // Hide hormone values
+                                    return context.dataset.label + ': ' + context.parsed.y + '%';
+                                }
+                            }
+                        },
+                        annotation: {
+                            annotations: {
+                                // Period Markers (Every 4 weeks approx)
+                                period1: { type: 'label', xValue: 0, yValue: 5, content: '月経', font: {size: 10}, color: '#888' },
+                                ovulation1: { type: 'label', xValue: 2, yValue: 5, content: '排卵', font: {size: 10}, color: '#888' },
+                                period2: { type: 'label', xValue: 4, yValue: 5, content: '月経', font: {size: 10}, color: '#888' },
+                                ovulation2: { type: 'label', xValue: 6, yValue: 5, content: '排卵', font: {size: 10}, color: '#888' },
+                                period3: { type: 'label', xValue: 8, yValue: 5, content: '月経', font: {size: 10}, color: '#888' },
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            min: 0,
+                            max: 16,
+                            ticks: {
+                                callback: function(value) {
+                                    if (value === 0) return '初回';
+                                    if (value % 4 === 0) return (value/4) + 'ヶ月';
+                                    return '';
+                                },
+                                font: { family: "'Noto Sans JP', sans-serif" },
+                                color: '#8E5E65'
+                            },
+                            grid: { display: false }
+                        },
+                        y: {
+                            min: 0,
+                            max: 110,
+                            display: false,
+                            title: { display: true, text: '改善度' }
+                        },
+                        yHormone: {
+                            position: 'right',
+                            min: 0,
+                            max: 100, // Scale appropriately to sit at bottom
+                            display: false,
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+            // Initial render
+            updatePhase(0); 
+        }
+
+        // --- Logic Functions ---
+
+        function updatePhase(phaseIndex) {
+            // Update UI Styling
+            document.querySelectorAll('.phase-card').forEach((btn, idx) => {
+                if (idx === phaseIndex) {
+                    btn.classList.add('active-phase', 'border-pink-200');
+                    btn.classList.remove('border-pink-50');
+                } else {
+                    btn.classList.remove('active-phase', 'border-pink-200');
+                    btn.classList.add('border-pink-50');
+                }
+            });
+
+            // Update Text Content
+            const data = phaseDetails[phaseIndex];
+            document.getElementById('detail-title').innerText = data.title;
+            document.getElementById('detail-text').innerText = data.desc;
+            document.getElementById('detail-menu').innerText = data.menu;
+            document.getElementById('detail-point').innerHTML = data.point.replace('Point', '<span class="font-bold">Point:</span>');
+
+            // Update Chart Highlight (Box annotation for range)
+            const annotations = cycleChart.options.plugins.annotation.annotations;
+            // Clear previous box
+            delete annotations.highlightBox;
+            
+            // Add new highlight box
+            annotations.highlightBox = {
+                type: 'box',
+                xMin: data.highlightRange.min,
+                xMax: data.highlightRange.max,
+                yMin: 0,
+                yMax: 110,
+                backgroundColor: 'rgba(244, 166, 182, 0.1)',
+                borderColor: 'transparent'
+            };
+
+            cycleChart.update();
+        }
+
+        function toggleIrregularDataset() {
+            const checkbox = document.getElementById('toggle-irregular');
+            const isVisible = checkbox.checked;
+            
+            // Toggle visibility of dataset index 1 (Irregular)
+            cycleChart.setDatasetVisibility(1, isVisible);
+            cycleChart.update();
+        }
+
+        function setSeason(seasonKey) {
+            // Update Buttons
+            document.querySelectorAll('.btn-season').forEach(btn => {
+                if (btn.dataset.season === seasonKey) {
+                    btn.classList.add('active');
+                    btn.classList.remove('border-pink-200', 'text-[#8E5E65]');
+                } else {
+                    btn.classList.remove('active');
+                    btn.classList.add('border-pink-200', 'text-[#8E5E65]');
+                }
+            });
+
+            // Update Content with Fade Effect
+            const contentData = seasonalContent[seasonKey];
+            
+            document.getElementById('menu-title').innerText = contentData.menu.title;
+            document.getElementById('menu-desc').innerText = contentData.menu.desc;
+            
+            const benefitsList = document.getElementById('menu-benefits');
+            benefitsList.innerHTML = '';
+            contentData.menu.benefits.forEach(benefit => {
+                const li = document.createElement('li');
+                li.innerText = benefit;
+                benefitsList.appendChild(li);
+            });
+
+            document.getElementById('option-title').innerText = contentData.option.title;
+            document.getElementById('option-desc').innerText = contentData.option.desc;
+            document.getElementById('option-target').innerText = contentData.option.target;
+        }
+
+        // --- Init ---
+        window.addEventListener('DOMContentLoaded', () => {
+            initChart();
+            
+            const month = new Date().getMonth() + 1;
+            let currentSeason = 'winter';
+            if (month >= 3 && month <= 5) currentSeason = 'spring';
+            else if (month >= 6 && month <= 8) currentSeason = 'summer';
+            else if (month >= 9 && month <= 11) currentSeason = 'autumn';
+            
+            setSeason(currentSeason);
+        });
+
+    </script>
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</body>
+</html>
