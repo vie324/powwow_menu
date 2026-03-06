@@ -246,17 +246,11 @@
 
                     <!-- Detail Text Area -->
                     <div id="phase-detail-content" class="bg-[#FFF5F7] p-5 rounded-xl border-l-4 border-[#F4A6B6] flex-grow shadow-inner">
-                        <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-4 mb-3">
-                            <div>
-                                <h4 id="detail-title" class="font-bold text-lg text-[#5D4037]">土台期：ほぐしと歪みケア</h4>
-                                <p id="detail-text" class="text-sm text-[#8E5E65] mt-2 leading-relaxed">
-                                    筋肉の硬さと骨盤の歪みが強い状態です。まずは整体でしっかりほぐし、骨格バランスの土台を作ります。
-                                </p>
-                            </div>
-                            <div class="bg-white p-3 rounded-lg border border-pink-100 min-w-[200px] shadow-sm">
-                                <div class="text-xs text-gray-400 font-bold mb-1 uppercase tracking-wide">Recommend</div>
-                                <div id="detail-menu" class="font-bold text-[#E98B9F]">ウィメンズ整体70</div>
-                            </div>
+                        <div class="mb-3">
+                            <h4 id="detail-title" class="font-bold text-lg text-[#5D4037]">土台期：ほぐしと歪みケア</h4>
+                            <p id="detail-text" class="text-sm text-[#8E5E65] mt-2 leading-relaxed">
+                                筋肉の硬さと骨盤の歪みが強い状態です。まずは整体でしっかりほぐし、骨格バランスの土台を作ります。
+                            </p>
                         </div>
                         <div class="border-t border-dashed border-pink-200 pt-3">
                             <div class="flex items-start gap-3">
@@ -482,13 +476,6 @@
             </div>
         </section>
 
-        <!-- CTA Area -->
-        <section class="text-center py-8">
-            <button class="bg-[#E98B9F] hover:bg-[#D47A8D] active:bg-[#C06A7D] text-white font-bold py-5 px-14 rounded-full shadow-lg transform hover:-translate-y-1 active:translate-y-0 transition duration-300 text-lg tracking-wide">
-                この内容で予約・相談する
-            </button>
-            <p class="text-xs text-[#8E5E65] mt-4">※スタッフまでお気軽にお声がけください</p>
-        </section>
 
     </main>
 
@@ -743,7 +730,6 @@
             const data = phaseDetails[phaseIndex];
             document.getElementById('detail-title').innerText = data.title;
             document.getElementById('detail-text').innerText = data.desc;
-            document.getElementById('detail-menu').innerText = data.menu;
             document.getElementById('detail-point').innerHTML = data.point.replace('Point', '<span class="font-bold">Point:</span>');
 
             const annotations = cycleChart.options.plugins.annotation.annotations;
