@@ -21,12 +21,6 @@
             max-height: 500px;
         }
         /* Custom Button Styling */
-        .btn-season.active {
-            background-color: #F4A6B6; /* Sakura Pink */
-            color: white;
-            border-color: #F4A6B6;
-            box-shadow: 0 4px 6px -1px rgba(244, 166, 182, 0.4);
-        }
         .phase-card {
             transition: all 0.3s ease;
             border-left: 4px solid transparent;
@@ -75,7 +69,7 @@
             <h1 class="text-2xl font-bold tracking-widest text-[#E98B9F]">POWWOW</h1>
             <nav class="hidden md:flex space-x-6 text-sm text-[#8E5E65]">
                 <a href="#roadmap" class="hover:text-[#F4A6B6] transition">施術ロードマップ</a>
-                <a href="#seasonal" class="hover:text-[#F4A6B6] transition">季節のおすすめ</a>
+                <a href="#pricing" class="hover:text-[#F4A6B6] transition">料金プラン</a>
             </nav>
         </div>
     </header>
@@ -190,68 +184,146 @@
             </div>
         </section>
 
-        <!-- Seasonal Recommendation Section -->
-        <section id="seasonal" class="bg-white rounded-3xl p-6 shadow-md border border-pink-100">
+        <!-- Pricing & Packages Section -->
+        <section id="pricing" class="bg-white rounded-3xl p-6 lg:p-8 shadow-md border border-pink-100">
             <div class="mb-6 border-b border-pink-100 pb-4">
                 <h3 class="text-xl font-bold text-[#E98B9F] flex items-center gap-2">
-                    <span class="text-2xl">02</span> 今のあなたにおすすめのケア
+                    <span class="text-2xl">02</span> 料金プラン・パッケージのご案内
                 </h3>
                 <p class="text-sm text-gray-500 mt-2">
-                    季節や気候の変化に合わせたメニュー選びで、より快適な毎日を。
+                    新規のお客様から継続ケアまで、最適なプランをご提案します。
                 </p>
             </div>
 
-            <!-- Season Selector -->
-            <div class="flex flex-wrap justify-center gap-3 mb-8">
-                <button onclick="setSeason('spring')" class="btn-season px-6 py-2 rounded-full border border-pink-200 text-[#8E5E65] hover:bg-pink-50 transition text-sm font-medium" data-season="spring">春 (3-5月)</button>
-                <button onclick="setSeason('summer')" class="btn-season px-6 py-2 rounded-full border border-pink-200 text-[#8E5E65] hover:bg-pink-50 transition text-sm font-medium" data-season="summer">夏 (6-8月)</button>
-                <button onclick="setSeason('autumn')" class="btn-season px-6 py-2 rounded-full border border-pink-200 text-[#8E5E65] hover:bg-pink-50 transition text-sm font-medium" data-season="autumn">秋 (9-11月)</button>
-                <button onclick="setSeason('winter')" class="btn-season px-6 py-2 rounded-full border border-pink-200 text-[#8E5E65] hover:bg-pink-50 transition text-sm font-medium active" data-season="winter">冬 (12-2月)</button>
-            </div>
-
-            <!-- Dynamic Content -->
-            <div class="grid md:grid-cols-2 gap-6">
-                <!-- Recommended Menu -->
-                <div class="bg-[#FFFDFD] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition border border-pink-50">
-                    <div class="bg-[#F4A6B6] p-3 text-white font-bold text-center tracking-wider">
-                        季節のおすすめコース
+            <!-- Flow Diagram -->
+            <div class="mb-8 bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
+                <p class="text-center text-sm font-bold text-[#8E5E65] mb-4">ご利用の流れ</p>
+                <div class="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-4">
+                    <div class="bg-white rounded-xl px-5 py-3 shadow-sm border border-pink-100 text-center min-w-[160px]">
+                        <div class="text-xs text-[#E98B9F] font-bold mb-1">STEP 1</div>
+                        <div class="font-bold text-[#5D4037] text-sm">新規様 整体50分</div>
+                        <div class="text-xs text-gray-400 mt-1">まずはお試しください</div>
                     </div>
-                    <div class="p-6">
-                        <h4 id="menu-title" class="text-xl font-bold text-[#5D4037] mb-2 border-b border-pink-200 inline-block pb-1">全身整体＋温活コース</h4>
-                        <div class="mt-4 space-y-3">
-                            <p id="menu-desc" class="text-sm text-[#8E5E65] leading-relaxed">
-                                寒さで縮こまった体を芯から緩めます。筋肉が硬くなりやすいこの時期は、通常の整体に加えて血流を促進するアプローチが不可欠です。
-                            </p>
-                            <ul id="menu-benefits" class="text-sm text-gray-500 list-disc list-inside bg-[#FFF5F7] p-3 rounded-lg border border-pink-100">
-                                <li>寒さによる肩こり・腰痛の緩和</li>
-                                <li>免疫力アップ</li>
-                                <li>冷え性改善</li>
-                            </ul>
-                        </div>
+                    <div class="text-[#F4A6B6] text-2xl font-bold rotate-90 md:rotate-0">→</div>
+                    <div class="bg-white rounded-xl px-5 py-3 shadow-sm border border-pink-100 text-center min-w-[160px]">
+                        <div class="text-xs text-[#E98B9F] font-bold mb-1">STEP 2</div>
+                        <div class="font-bold text-[#5D4037] text-sm">回数券 50分×3回</div>
+                        <div class="text-xs text-gray-400 mt-1">集中ケアで土台作り</div>
+                    </div>
+                    <div class="text-[#F4A6B6] text-2xl font-bold rotate-90 md:rotate-0">→</div>
+                    <div class="bg-white rounded-xl px-5 py-3 shadow-sm border border-pink-100 text-center min-w-[160px]">
+                        <div class="text-xs text-[#E98B9F] font-bold mb-1">STEP 3</div>
+                        <div class="font-bold text-[#5D4037] text-sm">サブスク</div>
+                        <div class="text-xs text-gray-400 mt-1">継続メンテナンスへ</div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Recommended Option -->
-                <div class="bg-[#FFFDFD] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition border border-pink-50">
-                    <div class="bg-[#E98B9F] p-3 text-white font-bold text-center tracking-wider">
-                        プラスワン・オプション
+            <!-- Pricing Cards -->
+            <div class="space-y-8">
+
+                <!-- Prepaid Section -->
+                <div class="bg-[#FFFDFD] rounded-2xl overflow-hidden shadow-sm border border-pink-50">
+                    <div class="bg-[#F4A6B6] p-3 text-white font-bold text-center tracking-wider">
+                        プリペイド
                     </div>
                     <div class="p-6">
-                        <div class="flex items-start justify-between">
-                            <h4 id="option-title" class="text-xl font-bold text-[#5D4037] mb-2 border-b border-pink-200 inline-block pb-1">ホットストーン / 腸もみ</h4>
-                            <span class="bg-white text-[#E98B9F] text-xs font-bold px-2 py-1 rounded border border-[#E98B9F]">Option</span>
-                        </div>
-                        <div class="mt-4 space-y-3">
-                            <p id="option-desc" class="text-sm text-[#8E5E65] leading-relaxed">
-                                内臓の冷えは全身の不調につながります。お腹を温めながら優しくほぐすことで、自律神経を整え、深いリラックス効果が得られます。
-                            </p>
-                            <div class="bg-[#FFF5F7] p-3 rounded-lg border border-pink-100">
-                                <p class="text-xs font-bold text-[#E98B9F] mb-1">こんな方におすすめ</p>
-                                <p id="option-target" class="text-sm text-gray-600">手足の冷えが辛い方 / 便秘気味の方 / 眠りが浅い方</p>
+                        <p class="text-xs text-[#8E5E65] mb-4 bg-[#FFF5F7] inline-block px-3 py-1 rounded-full border border-pink-100">※有効期限：半年</p>
+                        <div class="grid sm:grid-cols-3 gap-4">
+                            <div class="border border-pink-100 rounded-xl p-4 text-center hover:shadow-md transition">
+                                <div class="text-lg font-bold text-[#5D4037]">3万円</div>
+                                <div class="mt-2 bg-[#E98B9F] text-white text-sm font-bold px-3 py-1 rounded-full inline-block">5%オフ</div>
+                                <div class="text-xs text-gray-400 mt-2">1回あたりお得に</div>
+                            </div>
+                            <div class="border border-pink-200 rounded-xl p-4 text-center hover:shadow-md transition relative">
+                                <div class="text-lg font-bold text-[#5D4037]">5万円</div>
+                                <div class="mt-2 bg-[#E98B9F] text-white text-sm font-bold px-3 py-1 rounded-full inline-block">10%オフ</div>
+                                <div class="text-xs text-gray-400 mt-2">人気のプラン</div>
+                            </div>
+                            <div class="border border-pink-100 rounded-xl p-4 text-center hover:shadow-md transition">
+                                <div class="text-lg font-bold text-[#5D4037]">10万円</div>
+                                <div class="mt-2 bg-[#E98B9F] text-white text-sm font-bold px-3 py-1 rounded-full inline-block">15%オフ</div>
+                                <div class="text-xs text-gray-400 mt-2">最もお得</div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Ticket Package Section -->
+                <div class="bg-[#FFFDFD] rounded-2xl overflow-hidden shadow-sm border border-pink-50">
+                    <div class="bg-[#E98B9F] p-3 text-white font-bold text-center tracking-wider">
+                        回数券（50分×3回）
+                    </div>
+                    <div class="p-6">
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="text-xs text-[#8E5E65] bg-[#FFF5F7] px-3 py-1 rounded-full border border-pink-100">※有効期限：2ヶ月</span>
+                            <span class="text-xs text-[#8E5E65] bg-[#FFF5F7] px-3 py-1 rounded-full border border-pink-100">※着替えを施術時間内に / 着替えなし（インターバル10分）</span>
+                        </div>
+                        <div class="bg-[#FFF5F7] rounded-xl p-5 border border-pink-100 max-w-md mx-auto text-center">
+                            <div class="text-sm text-[#8E5E65] mb-1">整体50分 × 3回分</div>
+                            <div class="text-sm text-gray-400 mb-2">1回 7,600円 × 3回 = <span class="line-through">22,800円</span></div>
+                            <div class="text-3xl font-bold text-[#E98B9F]">19,380<span class="text-base font-normal">円（税込）</span></div>
+                            <div class="mt-2 bg-[#E98B9F] text-white text-xs font-bold px-3 py-1 rounded-full inline-block">3,420円おトク！</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subscription Section -->
+                <div class="bg-[#FFFDFD] rounded-2xl overflow-hidden shadow-sm border border-pink-50 relative">
+                    <div class="bg-gradient-to-r from-[#E98B9F] to-[#F4A6B6] p-3 text-white font-bold text-center tracking-wider relative">
+                        サブスク（月額プラン）
+                        <!-- Editable Month Tab -->
+                        <div class="absolute top-1/2 right-3 -translate-y-1/2 flex items-center gap-1">
+                            <select id="subsMonthSelect" onchange="updateSubsMonth()" class="bg-white/20 text-white text-xs font-bold border border-white/40 rounded-lg px-2 py-1 cursor-pointer appearance-none text-center focus:outline-none focus:ring-2 focus:ring-white/50" style="min-width: 70px;">
+                                <option value="1" class="text-gray-700">1月</option>
+                                <option value="2" class="text-gray-700">2月</option>
+                                <option value="3" selected class="text-gray-700">3月</option>
+                                <option value="4" class="text-gray-700">4月</option>
+                                <option value="5" class="text-gray-700">5月</option>
+                                <option value="6" class="text-gray-700">6月</option>
+                                <option value="7" class="text-gray-700">7月</option>
+                                <option value="8" class="text-gray-700">8月</option>
+                                <option value="9" class="text-gray-700">9月</option>
+                                <option value="10" class="text-gray-700">10月</option>
+                                <option value="11" class="text-gray-700">11月</option>
+                                <option value="12" class="text-gray-700">12月</option>
+                            </select>
+                            <span class="text-white/80 text-xs">限定</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex flex-wrap gap-2 mb-2">
+                            <span id="subsMonthLabel" class="text-xs font-bold text-white bg-[#E98B9F] px-3 py-1 rounded-full">3月限定</span>
+                            <span class="text-xs text-[#8E5E65] bg-[#FFF5F7] px-3 py-1 rounded-full border border-pink-100">平日16時までのご来店で</span>
+                        </div>
+                        <p class="text-xs text-[#8E5E65] bg-[#FFF5F7] px-3 py-1 rounded-full border border-pink-100 inline-block mb-5">※着替えを施術時間内に / 着替えなし（インターバル10分）</p>
+
+                        <div class="grid md:grid-cols-2 gap-5">
+                            <!-- Monthly 1x -->
+                            <div class="border border-pink-100 rounded-xl p-5 text-center hover:shadow-md transition bg-white">
+                                <div class="text-sm font-bold text-[#8E5E65] mb-2">月1回プラン</div>
+                                <div class="text-xs text-gray-400 mb-1"><span class="line-through">7,600円</span> → 15%オフ</div>
+                                <div class="text-2xl font-bold text-[#E98B9F]">6,460<span class="text-sm font-normal">円/回</span></div>
+                                <div class="mt-3 bg-[#FFF5F7] rounded-lg p-2 border border-pink-100">
+                                    <div class="text-xs text-gray-500">月額</div>
+                                    <div class="text-lg font-bold text-[#5D4037]">6,460<span class="text-xs font-normal">円</span></div>
+                                </div>
+                            </div>
+                            <!-- Monthly 2x -->
+                            <div class="border-2 border-[#E98B9F] rounded-xl p-5 text-center hover:shadow-md transition bg-white relative">
+                                <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#E98B9F] text-white text-xs font-bold px-3 py-0.5 rounded-full">おすすめ</div>
+                                <div class="text-sm font-bold text-[#8E5E65] mb-2">月2回プラン</div>
+                                <div class="text-xs text-gray-400 mb-1"><span class="line-through">7,600円</span> → 20%オフ</div>
+                                <div class="text-2xl font-bold text-[#E98B9F]">6,080<span class="text-sm font-normal">円/回</span></div>
+                                <div class="mt-3 bg-[#FFF5F7] rounded-lg p-2 border border-pink-100">
+                                    <div class="text-xs text-gray-500">月額</div>
+                                    <div class="text-lg font-bold text-[#5D4037]">12,160<span class="text-xs font-normal">円</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -348,24 +420,12 @@
             }
         ];
 
-        const seasonalContent = {
-            spring: {
-                menu: { title: "自律神経バランス整体", desc: "春は寒暖差や環境の変化で自律神経が乱れやすい季節。背骨周りを重点的に緩め、呼吸を深くすることで、「なんとなく不調」を解消します。", benefits: ["自律神経の乱れケア", "春のダルさ解消", "睡眠の質向上"] },
-                option: { title: "ドライヘッドスパ / 眼精疲労ケア", desc: "頭皮の緊張を解きほぐし、春特有の頭の重さや花粉による目の不快感をスッキリさせます。", target: "頭が重い方 / 目が疲れている方" }
-            },
-            summer: {
-                menu: { title: "むくみ撃退リンパ整体", desc: "冷房による冷えや水分過多で、体は意外とむくんでいます。股関節や足首の調整に加え、リンパの流れを促進してスッキリ軽い体へ。", benefits: ["足のむくみ解消", "冷房病ケア", "代謝アップ"] },
-                option: { title: "足裏リフレクソロジー", desc: "内臓の反射区を刺激し、夏バテで弱った胃腸の働きを助けます。オイルを使って膝下まで流します。", target: "足がパンパンな方 / 胃腸が疲れ気味の方" }
-            },
-            autumn: {
-                menu: { title: "骨盤調整＋疲労回復コース", desc: "夏の疲れがドッと出る秋。骨盤を整えてホルモンバランスをケアし、冬に向けて体力を回復させる土台作りを行います。", benefits: ["夏の疲れリセット", "ホルモンバランス調整", "腰痛予防"] },
-                option: { title: "ハンド＆アームケア", desc: "季節の変わり目は末端の血行が悪くなりがち。指先から腕全体をほぐし、首肩の緊張も緩めます。", target: "肩こりがひどい方 / 手先が冷える方" }
-            },
-            winter: {
-                menu: { title: "全身整体＋温活コース", desc: "寒さで縮こまった体を芯から緩めます。筋肉が硬くなりやすいこの時期は、通常の整体に加えて血流を促進するアプローチが不可欠です。", benefits: ["寒さによる肩こり・腰痛の緩和", "免疫力アップ", "冷え性改善"] },
-                option: { title: "ホットストーン / 腸もみ", desc: "内臓の冷えは全身の不調につながります。お腹を温めながら優しくほぐすことで、自律神経を整え、深いリラックス効果が得られます。", target: "手足の冷えが辛い方 / 便秘気味の方 / 眠りが浅い方" }
-            }
-        };
+        // --- Subscription Month Update ---
+        function updateSubsMonth() {
+            const select = document.getElementById('subsMonthSelect');
+            const month = select.value;
+            document.getElementById('subsMonthLabel').innerText = month + '月限定';
+        }
 
         // --- Chart Initialization ---
         let cycleChart;
@@ -549,48 +609,9 @@
             cycleChart.update();
         }
 
-        function setSeason(seasonKey) {
-            // Update Buttons
-            document.querySelectorAll('.btn-season').forEach(btn => {
-                if (btn.dataset.season === seasonKey) {
-                    btn.classList.add('active');
-                    btn.classList.remove('border-pink-200', 'text-[#8E5E65]');
-                } else {
-                    btn.classList.remove('active');
-                    btn.classList.add('border-pink-200', 'text-[#8E5E65]');
-                }
-            });
-
-            // Update Content with Fade Effect
-            const contentData = seasonalContent[seasonKey];
-            
-            document.getElementById('menu-title').innerText = contentData.menu.title;
-            document.getElementById('menu-desc').innerText = contentData.menu.desc;
-            
-            const benefitsList = document.getElementById('menu-benefits');
-            benefitsList.innerHTML = '';
-            contentData.menu.benefits.forEach(benefit => {
-                const li = document.createElement('li');
-                li.innerText = benefit;
-                benefitsList.appendChild(li);
-            });
-
-            document.getElementById('option-title').innerText = contentData.option.title;
-            document.getElementById('option-desc').innerText = contentData.option.desc;
-            document.getElementById('option-target').innerText = contentData.option.target;
-        }
-
         // --- Init ---
         window.addEventListener('DOMContentLoaded', () => {
             initChart();
-            
-            const month = new Date().getMonth() + 1;
-            let currentSeason = 'winter';
-            if (month >= 3 && month <= 5) currentSeason = 'spring';
-            else if (month >= 6 && month <= 8) currentSeason = 'summer';
-            else if (month >= 9 && month <= 11) currentSeason = 'autumn';
-            
-            setSeason(currentSeason);
         });
 
     </script>
